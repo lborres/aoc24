@@ -42,7 +42,11 @@ func run() error {
     if err == io.EOF {
       break
     }
-    if err != nil && !errors.Is(err, csv.ErrFieldCount) { return err }
+    // WARN: csvReader.Read() expects all fields to have the same number of elements
+    // below will disregard "malformed" rows and continue processing
+    if err != nil && !errors.Is(err, csv.ErrFieldCount) {
+      return err
+    }
 
     fmt.Println(rawLine)
 
