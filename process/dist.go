@@ -23,7 +23,7 @@ func totalDistance(arrA []int, arrB []int) ( int, error ){
   return result, nil
 }
 
-// DistMain is the main process for the solution to day 01 part 01
+// CheckDist is the main process for the solution to day 01 part 01
 func CheckDist(inputFile string) {
   file, err := os.Open(inputFile)
   if err != nil {

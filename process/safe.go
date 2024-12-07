@@ -38,6 +38,7 @@ func isSafe(report []int) (bool, error) {
   return true, nil
 }
 
+// CheckLevels is the main process to solve day 02 part 01
 func CheckLevels(inputFile string) {
   result := 0
   file, err := os.Open(inputFile)
