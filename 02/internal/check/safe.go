@@ -1,6 +1,5 @@
 package check
 
-// IsSafe take
 func IsSafe(report []int) (bool, error) {
   var direction int
   for i := range report {
