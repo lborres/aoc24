@@ -1,46 +1,70 @@
 package process
 
 import (
-	"encoding/csv"
-	"errors"
-	"fmt"
-	"io"
-	"log"
-	"os"
+  "encoding/csv"
+  "errors"
+  "fmt"
+  "io"
+  "log"
+  "os"
 
-	"github.com/lborres/aoc24/internal/conv"
+  "github.com/ttacon/chalk"
+  "github.com/lborres/aoc24/internal/conv"
 )
 
-func isSafe(report []int) (bool, error) {
+func isSafe(report []int, useDamper bool) bool {
+  fmt.Printf("Checking(dampened? %v): %v\n", !useDamper, report)
   var direction int
+  var k int = 0
+  newReport := []int{}
   for i := range report {
     if i == 0 {
       if report[i] < report[i+1] {
-        direction = -1
-      } else {
         direction = 1
+      } else {
+        direction = -1
       }
       continue
     }
-    variance := report[i-1] - report[i]
+    variance := report[i] - report[i-1]
     switch direction {
       case 1:
       if variance > 3 || variance <= 0{
-        return false, nil
+        fmt.Printf("%sFAIL%s (+)(%v->%v: %v)\n", chalk.Red, chalk.Reset, report[i-1], report[i], variance)
+        if useDamper {
+          newReport = append(newReport, report[:i]...)
+          if i < len(report) - 1 {
+            newReport = append(newReport, report[i+1:]...)
+          }
+          return isSafe(newReport, false)
+        }
+        return false
       }
       case -1:
       if variance < -3 || variance >= 0{
-        return false, nil
+        fmt.Printf("%sFAIL%s (-)(%v->%v: %v)\n", chalk.Red, chalk.Reset, report[i-1], report[i], variance)
+        if useDamper {
+          newReport = append(newReport, report[:i]...)
+          if i < len(report) - 1 {
+            newReport = append(newReport, report[i+1:]...)
+          }
+          return isSafe(newReport, false)
+        }
+        return false
       }
     }
+    k++
   }
 
-  return true, nil
+  fmt.Printf("%sPASS%s\n", chalk.Green, chalk.Reset)
+
+  return true
 }
 
 // CheckLevels is the main process to solve day 02 part 01
 func CheckLevels(inputFile string) {
-  result := 0
+  resultA := 0
+  resultB := 0
   file, err := os.Open(inputFile)
   if err != nil {
     log.Println(err)
@@ -62,14 +86,16 @@ func CheckLevels(inputFile string) {
     // convert raw line into []int
     line := conv.Arrtoi(rawLine)
 
-    chk, err := isSafe(line)
-    if err != nil {
-      log.Println(err)
+    chkA := isSafe(line, false)
+    if chkA {
+      resultA++
     }
-    if chk {
-      result++
+    chkB := isSafe(line, true)
+    if chkB {
+      resultB++
     }
   }
 
-  fmt.Println(result)
+  fmt.Printf("Safe Reports(undampend): %v\n", resultA)
+  fmt.Printf("Safe Reports(dampened): %v\n", resultB)
 }

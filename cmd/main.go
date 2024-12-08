@@ -37,7 +37,6 @@ func run() error {
   case "dist":
     process.CheckDist(inputFile)
   case "safe":
-    fmt.Printf("got: %s\n", subcommand)
     process.CheckLevels(inputFile)
   default:
     err := fmt.Sprintf("Unknown subcommand: %s\n", subcommand)
