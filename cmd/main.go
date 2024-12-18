@@ -4,7 +4,6 @@ import (
 	"errors"
 	"flag"
 	"fmt"
-	"log"
 	"os"
 
 	"github.com/lborres/aoc24/process"
@@ -17,7 +16,7 @@ func run() error {
   flag.StringVar(&inputFile, "i", "", "relative path to input file")
   flag.Parse()
 
-  if len(os.Args) < 2 {
+  if len(os.Args) < 4 {
     return errors.New("Usage: mycli -i <file> <command> [options]")
   }
 
@@ -48,6 +47,7 @@ func run() error {
 
 func main() {
   if err := run(); err != nil {
-    log.Fatalln(err)
+    fmt.Print(err)
+    os.Exit(1)
   }
 }
