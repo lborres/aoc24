@@ -1,0 +1,9 @@
+[package]
+name = "aoc24"
+version = "0.2.0"
+edition = "2021"
+authors = ["Louis Borres"]
+
+[dependencies]
+anyhow = "1.0.100"
+clap = { version = "4", features = ["derive"] }
