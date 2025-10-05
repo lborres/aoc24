@@ -26,7 +26,7 @@ impl Handler for SafetyHandler {
 
         let service = DampenedSafetyReportService;
         let raw_safety_report = service.calc(data)?;
-        println!("Raw Safety Report: {}", raw_safety_report);
+        println!("Dampened Safety Report: {}", raw_safety_report);
 
         Ok(())
     }
