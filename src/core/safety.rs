@@ -79,6 +79,20 @@ fn is_dampened_safe(report: &[i32]) -> bool {
         return false;
     }
 
+    // try removing each index once
+    for remove_idx in 0..report.len() {
+        let mut reduced = Vec::with_capacity(report.len() - 1);
+        reduced.extend_from_slice(&report[..remove_idx]);
+        reduced.extend_from_slice(&report[remove_idx + 1..]);
+
+        trace!("Trying removal index {} -> {:?}", remove_idx, reduced);
+        if is_safe(&reduced) {
+            trace!("Dampened Report Safe by removing index {}", remove_idx);
+            return true;
+        }
+    }
+
+
     false
 }
 
