@@ -79,6 +79,7 @@ fn is_dampened_safe(report: &[i32]) -> bool {
         return false;
     }
 
+    // PERF: I've not considered the perf of the block below
     // try removing each index once
     for remove_idx in 0..report.len() {
         let mut reduced = Vec::with_capacity(report.len() - 1);
