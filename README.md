@@ -10,7 +10,7 @@ Running any of the following should show the CLI tool's help messages.
 cargo run -- --help
 
 # If running the built executable
-aoc24 --help
+advent --help
 ```
 
 ## Initial approach with golang
